@@ -1,89 +1,132 @@
-# cub3D 🐺 - Mi Primer Raycaster 3D (Proyecto en Equipo)
+# Cub3D
 
-![cub3D GIF](URL_DEL_GIF_AQUI) ## Introducción
+Wolfenstein 3D-style 3D engine using the raycasting algorithm for real-time rendering.
 
-`cub3D` es un proyecto de [42 School](https://www.42.fr/) inspirado en el legendario **Wolfenstein 3D**, considerado el primer *First-Person Shooter* (FPS) de la historia. El objetivo es crear una representación gráfica 3D del interior de un laberinto desde una perspectiva en primera persona, utilizando los principios del **Ray-Casting** y la librería gráfica **MiniLibX**.
+## Description
 
-Este proyecto fue desarrollado en equipo, aprovechando nuestras fortalezas para recrear esta experiencia clásica.
+This project implements a real-time 3D renderer from a first-person perspective. The player can explore a maze rendered in 3D with textured walls. The project demonstrates fundamental concepts of 3D graphics, computational geometry, and performance optimization.
 
-## El Desafío
+## Technologies
 
-El reto principal es renderizar una vista 3D dinámica y navegable a partir de un mapa 2D. Esto implica:
+- **Algorithm:** Raycasting
+- **Graphics library:** MiniLibX
+- **Language:** C
+- **Standard:** C89/C90
 
-1.  **Parsing:** Analizar un archivo de descripción de escena (`.cub`) que contiene la configuración del mapa, las texturas y los colores.
-2.  **Ray-Casting:** Implementar el algoritmo de lanzamiento de rayos para calcular qué ven los ojos del jugador y cómo renderizarlo.
-3.  **Gráficos 2D/3D:** Usar la `MiniLibX` para dibujar en una ventana, cargar texturas y representar un entorno 3D convincente.
-4.  **Interacción:** Manejar eventos del teclado para el movimiento y la rotación del jugador.
+## Features
 
-## Nuestro Enfoque y Contribuciones 🤝
+- Real-time 3D rendering using raycasting
+- Texture loading and mapping (North, South, East, West)
+- Smooth first-person navigation
+- Configurable floor and ceiling colors
+- Keyboard (and optional mouse) event handling
+- `.cub` configuration file parsing
+- Basic collision detection
+- Efficient memory management
 
-Siendo un equipo de dos, dividimos el trabajo de la siguiente manera, aunque ambos participamos activamente en todas las fases:
+## Included Files
 
-* **[jeandrad1](https://github.com/jeandrad1)** se centró principalmente en la **Ejecución y Renderizado**:
-    * Implementación del algoritmo principal de **Ray-Casting**.
-    * Interacción con la **MiniLibX** para el dibujado de la ventana, píxeles y texturas.
-    * Manejo de los **eventos del teclado** (W, A, S, D, flechas, ESC) para el movimiento y la vista.
-    * Cálculo de la perspectiva y el dibujado de las paredes, suelo y techo.
+- `cub3d.c` - Main program
+- `Includes/` - Header files
+- `Parse/` - `.cub` file parser
+- `Execute/` - Rendering engine and main loop
+- `Library/` - Utility functions
+- `textures/` - Texture files
+- `Maps/` - Example maps
 
-* **[Tu Usuario GitHub]** se centró principalmente en el **Parsing y la Gestión de Datos**:
-    * Desarrollo del **parser** para leer y validar los archivos `.cub`.
-    * Carga y gestión de las **texturas** (Norte, Sur, Este, Oeste).
-    * Procesamiento de los **colores** de suelo y techo.
-    * Validación de la estructura del mapa (cerrado, caracteres válidos, etc.).
-    * Estructuración de los datos para que el motor de renderizado pudiera usarlos.
-
-Esta colaboración nos permitió abordar tanto la lógica de renderizado como la gestión de datos de manera eficiente.
-
-## Características Implementadas
-
-* **Renderizado Ray-Casting:** Creación de una vista 3D desde una perspectiva en primera persona.
-* **MiniLibX:** Uso exclusivo de la `MiniLibX` para toda la gestión gráfica.
-* **Mapa `.cub`:** El programa acepta un archivo `.cub` como argumento.
-    * El mapa se compone de `0` (espacio), `1` (muro) y `N,S,E,W` (jugador).
-    * El mapa debe estar cerrado por muros.
-    * Parseo de texturas (`NO`, `SO`, `WE`, `EA`) y colores (`F`, `C`).
-    * Gestión de errores para mapas/configuraciones inválidas.
-* **Texturas:** Muestra diferentes texturas según la orientación del muro (N, S, E, O).
-* **Colores Suelo/Techo:** Colores personalizables para el suelo y el techo.
-* **Movimiento:**
-    * Teclas W, A, S, D para moverse.
-    * Flechas izquierda/derecha para rotar la vista.
-* **Gestión de Ventana:**
-    * La ventana se gestiona de forma fluida (minimizar, etc.).
-    * ESC o la cruz roja cierran el programa limpiamente.
-
-## Parte Bonus (Opcional)
-
-* Colisiones con las paredes.
-* Minimapa.
-* Puertas que se abren y cierran.
-* Sprites animados.
-* Rotación de la vista con el ratón.
-
-## Cómo Usar
-
-### Requisitos
-
-* Un compilador C (como `gcc` o `clang`).
-* `make`.
-* `MiniLibX` instalada o sus fuentes.
-* Librerías matemáticas (`-lm`).
-
-### Compilación
-
-1.  **Clona el repositorio:**
-    ```bash
-    git clone [https://github.com/tu_usuario/cub3d.git](https://github.com/tu_usuario/cub3d.git)
-    cd cub3d
-    ```
-2.  **(Opcional) Si usas `libft`, asegúrate de que esté presente y tu `Makefile` la compile.**
-3.  **Compila el proyecto:**
-    ```bash
-    make
-    ```
-    Esto creará el ejecutable `cub3D`.
-
-### Ejecución
+## Build
 
 ```bash
-./cub3D maps/mapa_valido.cub
+make              # Build cub3d
+make clean        # Remove object files
+make fclean       # Remove executables and object files
+make re           # Rebuild from scratch
+```
+
+## Usage
+
+```bash
+./cub3d path/to/map.cub
+```
+
+## `.cub` File Format
+
+The configuration file must include texture paths, colors and a map layout. Example:
+
+```
+NO ./textures/north.xpm
+SO ./textures/south.xpm
+WE ./textures/west.xpm
+EA ./textures/east.xpm
+F 220,100,0
+C 225,30,0
+
+111111
+100001
+1P0001
+111111
+```
+
+Components:
+- `NO/SO/WE/EA` - Texture paths
+- `F` - Floor color (RGB)
+- `C` - Ceiling color (RGB)
+- Map: `0` (floor), `1` (wall), `N/S/E/W` (player starting position and orientation)
+
+## Controls
+
+| Key | Action |
+|---|---|
+| W | Move forward |
+| A | Move left |
+| S | Move backward |
+| D | Move right |
+| Left Arrow | Rotate view left |
+| Right Arrow | Rotate view right |
+| ESC | Exit |
+
+## Requirements
+
+- C compiler (gcc, clang, etc.)
+- Make
+- MLX42 (included or provided separately)
+- Linux or macOS
+- Graphic dependencies on Linux (libX11, libXext, etc.)
+
+## Raycasting Overview
+
+The raycasting pipeline:
+1. Cast rays from the player's position for each screen column
+2. Detect wall collisions for each ray
+3. Compute distance to the nearest wall
+4. Render vertical columns with heights proportional to distance
+5. Apply textures based on wall orientation and hit position
+
+## Optimizations
+
+- Optimized distance calculations
+- Precomputed trig lookup tables where appropriate
+- Efficient column rendering and minimal per-pixel overhead
+- Preallocated memory for buffers
+
+## Map Validation
+
+The program validates:
+- The map is fully enclosed by walls
+- Single unique player start position
+- Only valid characters in the map
+- Texture files are accessible
+- Color values are within valid RGB ranges
+
+## Error Handling
+
+The program reports and handles:
+- Missing or invalid configuration files
+- Corrupt or missing textures
+- Incomplete configuration entries
+- Memory allocation failures
+- Graphics initialization errors
+
+---
+
+Last updated: December 2025
